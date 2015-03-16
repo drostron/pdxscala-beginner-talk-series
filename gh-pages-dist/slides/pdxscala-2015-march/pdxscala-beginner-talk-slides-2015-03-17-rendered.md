@@ -36,10 +36,6 @@ string interpolation
 
 March 17, 2015
 
-???
-
-example note, remove
-
 ---
 
 ## import hiding
@@ -184,25 +180,23 @@ res7: List[String] = List(by-name, by-name, by-name)
 
 ---
 
-further information : http://tpolecat.github.io/2014/06/26/call-by-name.html
+further information:
+
+http://tpolecat.github.io/2014/06/26/call-by-name.html
 
 ---
 
 ## string interpolation
-- go through standard lib uses: s, f, raw interpolators
-- other examples in the wild: spire literals, rapture json, ...
+- why?
+- key features
+- they're interesting due to?
+- type safety, explain
 - explain how they work
-- quick macro explanation (don't dwell here)
-- build up an example
+- quick macro explanation (don't dwell here), well, appears macros are not necessarily utilized?
+- build up another example?
   - svg? visuals are fun
   - currencies
   - other units
-
----
-
-they're interesting due to?
-- type safety, explain
-- ...
 
 ---
 
@@ -210,11 +204,11 @@ they're interesting due to?
 
 String Interpolator
 ```scala
-scala> s"Pi: $Pi, E: $E"
-res8: String = Pi: 3.141592653589793, E: 2.718281828459045
+scala> s"π: $Pi, cos(π): ${cos(Pi)}"
+res8: String = π: 3.141592653589793, cos(π): -1.0
 ```
 
-Format Interpolator
+Format Interpolator, _java.util.Formatter_
 ```scala
 scala> f"Aryabhata's π $Pi%.4f"
 res9: String = Aryabhata's π 3.1416
@@ -222,24 +216,121 @@ res9: String = Aryabhata's π 3.1416
 
 Raw Interpolator
 ```scala
-scala> raw"The\nRaw\tInterpolator"
-res10: String = The\nRaw\tInterpolator
+scala> raw"Look\tno\nEscaping"
+res10: String = Look\tno\nEscaping
 ```
 
 ---
 
 ## string interpolation (custom)
 
-
-implicit class JsonHelper(val sc: StringContext) extends AnyVal {
-  def json(args: Any*): JSONObject = sys.error("TODO - IMPLEMENT")
+```scala
+implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
+  def pl(args: Any*): String = pigLatinise(
+    sc.parts.zipAll(args, "", "").map { case (i, j) => i + j }.mkString)
 }
+```
+
+```scala
+scala> val α = "and"
+α: String = and
+
+scala> pl"this $α that"
+res11: String = hista andwa hatta
+```
+
+---
+
+## examples in the wild : [spire](https://github.com/non/spire)
+
+```scala
+import spire.syntax.literals._
+```
+
+```scala
+scala> b"1"
+res12: Byte = 1
+
+scala> ub"1"
+res13: spire.math.UByte = 1
+
+scala> ui"1"
+res14: spire.math.UInt = 1
+
+scala> ul"1"
+res15: spire.math.ULong = 1
+
+scala> r"1/7"
+res16: spire.math.Rational = 1/7
+
+scala> poly"x^2 - 3x + 7"
+res17: spire.math.Polynomial[spire.math.Rational] = (x^2 - 3x + 7)
+```
+
+---
+
+## examples in the wild : [spire](https://github.com/non/spire)
+
+```scala
+import spire.syntax.literals.radix._
+```
+
+```scala
+scala> x2"1011"
+res18: Int = 11
+
+scala> x16"def"
+res19: Int = 3567
+```
+```scala
+import spire.implicits._
+
+import spire.syntax.literals.us._ // also si and eu
+```
+
+```scala
+scala> i"1,024"
+res20: Int = 1024
+
+scala> big"2" ** 200
+res21: BigInt = 1606938044258990275541962092341162602522202993782792835301376
+```
+
+---
+
+## examples in the wild : [rapture-json](https://github.com/propensive/rapture-json)
+
+```scala
+import rapture.json._, jsonBackends.play._
+```
+
+```scala
+scala> val i = 3
+i: Int = 3
+
+scala> json"""{ "i" : $i }"""
+res22: rapture.json.Json = {"i":3}
+```
+
+---
+
+further information:
+
+http://docs.scala-lang.org/overviews/core/string-interpolation.html
+
+---
+
+Questions and/or Thoughts?
+
+--
+
+Thank you.
 
 ---
 
 ## future beginner talks
 
-great low commitment opportunity to speak. we need help! please join us! let's learn together!
+great low commitment opportunity to speak. please join us! let's learn together!
 
 ---
 
