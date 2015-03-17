@@ -145,7 +145,34 @@ j { println("."); "by-name" }
 
 ---
 
-## _example here_
+## example
+
+```tut:silent
+@annotation.tailrec
+def nTimes[T](n: Int)(op: => T): Unit = if(n > 0) { op; nTimes(n-1)(op) }
+```
+
+```tut
+var i = 0
+nTimes(3)(i += 1)
+i
+```
+
+---
+
+## example
+
+```tut:silent
+def ɟᴉ[T](pred: Boolean)(t: => T)(f: => T): T = pred match {
+  case true => t
+  case false => f
+}
+```
+
+```tut
+ɟᴉ(true) { println("T"); 3 } { println("F"); 7 }
+ɟᴉ(false) { println("T"); 11 } { println("F"); 13 }
+```
 
 ---
 
@@ -155,21 +182,7 @@ http://tpolecat.github.io/2014/06/26/call-by-name.html
 
 ---
 
-## string interpolation
-- why?
-- key features
-- they're interesting due to?
-- type safety, explain
-- explain how they work
-- quick macro explanation (don't dwell here), well, appears macros are not necessarily utilized?
-- build up another example?
-  - svg? visuals are fun
-  - currencies
-  - other units
-
----
-
-## string interpolation (std)
+## string interpolation : out of the box
 
 String Interpolator
 ```tut
@@ -188,11 +201,11 @@ raw"Look\tno\nEscaping"
 
 ---
 
-## string interpolation (custom)
+## string interpolation : custom
 
 ```tut:silent
 implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
-  def pl(args: Any*): String = pigLatinise(
+  def pl(args: String*): String = pigLatinise(
     sc.parts.zipAll(args, "", "").map { case (i, j) => i + j }.mkString)
 }
 ```
@@ -200,6 +213,13 @@ implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
 ```tut
 val α = "and"
 pl"this $α that"
+```
+
+--
+
+compiler rewrites to:
+```tut
+new StringContext("this ", " that").pl(α)
 ```
 
 ---
@@ -212,8 +232,6 @@ import spire.syntax.literals._
 
 ```tut
 b"1"
-ub"1"
-ui"1"
 ul"1"
 r"1/7"
 poly"x^2 - 3x + 7"
@@ -232,14 +250,17 @@ x2"1011"
 x16"def"
 ```
 ```tut:silent
-import spire.implicits._
-import spire.syntax.literals.us._ // also si and eu
+import spire.implicits._, spire.syntax.literals.us._
 ```
 
 ```tut
-i"1,024"
+"1,024"
 big"2" ** 200
 ```
+
+???
+
+also si and eu literals
 
 ---
 
@@ -251,8 +272,16 @@ import rapture.json._, jsonBackends.play._
 
 ```tut
 val i = 3
-json"""{ "i" : $i }"""
+val j = json"""{ "i" : $i }"""
+val json"""{ "i" : $v }""" = j
+v.as[Option[Int]]
 ```
+
+???
+
+further info on unapply:
+- [SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US)
+- [patternmatching and string interpolation : scala-internals discussion](https://groups.google.com/d/topic/scala-internals/AmZl7VqV_rk)
 
 ---
 
@@ -262,11 +291,11 @@ http://docs.scala-lang.org/overviews/core/string-interpolation.html
 
 ---
 
-Questions and/or Thoughts?
+## Questions
 
---
+---
 
-Thank you.
+## Thank you
 
 ---
 
@@ -280,8 +309,10 @@ great low commitment opportunity to speak. please join us! let's learn together!
 
 ---
 
+name: pub
+
 ## Adjourn to Pub
 
 Life of Riley
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2795.2435141151022!2d-122.680932!3d45.525304999999996!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950a01f3c028fb%3A0x6aa7706ab3319d4e!2sLife+of+Riley+Inc!5e0!3m2!1sen!2sus!4v1426378182446" width="600" height="450" frameborder="0" style="border:0"></iframe>
+.pub-map[]
