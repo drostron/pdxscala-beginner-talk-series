@@ -31,4 +31,7 @@ tutSourceDirectory := file("tut")
 
 libraryDependencies ++= Seq(
   "org.spire-math" %% "spire" % "0.9.1",
-  "com.propensive" %% "rapture-json-play" % "1.1.0")
+  "com.propensive" %% "rapture-json-play" % "1.1.0",
+  "com.lihaoyi" %% "utest" % "0.3.1" % "test")
+
+testFrameworks += new TestFramework("utest.runner.Framework")

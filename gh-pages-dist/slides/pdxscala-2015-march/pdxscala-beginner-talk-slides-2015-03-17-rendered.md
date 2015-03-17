@@ -38,6 +38,19 @@ March 17, 2015
 
 ---
 
+## import renaming
+
+```scala
+import java.util.{ Map => JMap, HashMap => JHashMap }
+```
+
+```scala
+scala> val jMap: JMap[String, Double] = new JHashMap
+jMap: java.util.Map[String,Double] = {}
+```
+
+---
+
 ## import hiding
 
 ```scala
@@ -49,7 +62,7 @@ scala> Pi
 res0: Double = 3.141592653589793
 
 scala> E
-<console>:12: error: not found: value E
+<console>:13: error: not found: value E
               E
               ^
 ```
@@ -97,7 +110,7 @@ scala> import Translations._
 import Translations._
 
 scala> translate("language games")
-<console>:24: error: ambiguous implicit values:
+<console>:25: error: ambiguous implicit values:
  both object PigLatin in object Translations of type Translations.PigLatin.type
  and object Gibberish in object Translations of type Translations.Gibberish.type
  match expected type Translation[T]
@@ -113,20 +126,7 @@ scala> import Translations.{ Gibberish => _, _ }
 import Translations.{Gibberish=>_, _}
 
 scala> translate("language games")
-res4: String = anguagela amesga
-```
-
----
-
-## import renaming
-
-```scala
-import java.util.{ Map => JMap, HashMap => JHashMap }
-```
-
-```scala
-scala> val jMap: JMap[String, Double] = new JHashMap
-jMap: java.util.Map[String,Double] = {}
+res4: String = anguagelay amesgay
 ```
 
 ---
@@ -164,14 +164,14 @@ def j[T](v: => T): List[T] = List(v, v, v)
 ```
 
 ```scala
-scala> i { println("."); "by-value" }
-.
+scala> i { println("☘"); "by-value" }
+☘
 res6: List[String] = List(by-value, by-value, by-value)
 
-scala> j { println("."); "by-name" }
-.
-.
-.
+scala> j { println("☘"); "by-name" }
+☘
+☘
+☘
 res7: List[String] = List(by-name, by-name, by-name)
 ```
 
@@ -255,19 +255,19 @@ implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
 ```
 
 ```scala
-scala> val α = "and"
-α: String = and
+scala> val α = "banana"
+α: String = banana
 
-scala> pl"this $α that"
-res15: String = hista andwa hatta
+scala> pl"happy $α glove"
+res15: String = appyhay ananabay oveglay
 ```
 
 --
 
 compiler rewrites to:
 ```scala
-scala> new StringContext("this ", " that").pl(α)
-res16: String = hista andwa hatta
+scala> new StringContext("happy ", " glove").pl(α)
+res16: String = appyhay ananabay oveglay
 ```
 
 ---
@@ -312,8 +312,8 @@ import spire.implicits._, spire.syntax.literals.us._
 ```
 
 ```scala
-scala> "1,024"
-res23: String = 1,024
+scala> i"1,024"
+res23: Int = 1024
 
 scala> big"2" ** 200
 res24: BigInt = 1606938044258990275541962092341162602522202993782792835301376
@@ -379,7 +379,7 @@ great low commitment opportunity to speak. please join us! let's learn together!
 
 name: pub
 
-## Adjourn to Pub
+## ☘ Adjourn to Pub ☘
 
 Life of Riley
 

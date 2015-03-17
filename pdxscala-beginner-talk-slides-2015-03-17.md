@@ -38,6 +38,18 @@ March 17, 2015
 
 ---
 
+## import renaming
+
+```tut:silent
+import java.util.{ Map => JMap, HashMap => JHashMap }
+```
+
+```tut
+val jMap: JMap[String, Double] = new JHashMap
+```
+
+---
+
 ## import hiding
 
 ```tut:silent
@@ -104,18 +116,6 @@ translate("language games")
 
 ---
 
-## import renaming
-
-```tut:silent
-import java.util.{ Map => JMap, HashMap => JHashMap }
-```
-
-```tut
-val jMap: JMap[String, Double] = new JHashMap
-```
-
----
-
 ## altogether now
 
 ```tut:silent
@@ -140,8 +140,8 @@ def j[T](v: => T): List[T] = List(v, v, v)
 ```
 
 ```tut
-i { println("."); "by-value" }
-j { println("."); "by-name" }
+i { println("☘"); "by-value" }
+j { println("☘"); "by-name" }
 ```
 
 ---
@@ -212,15 +212,15 @@ implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
 ```
 
 ```tut
-val α = "and"
-pl"this $α that"
+val α = "banana"
+pl"happy $α glove"
 ```
 
 --
 
 compiler rewrites to:
 ```tut
-new StringContext("this ", " that").pl(α)
+new StringContext("happy ", " glove").pl(α)
 ```
 
 ---
@@ -255,7 +255,7 @@ import spire.implicits._, spire.syntax.literals.us._
 ```
 
 ```tut
-"1,024"
+i"1,024"
 big"2" ** 200
 ```
 
@@ -312,7 +312,7 @@ great low commitment opportunity to speak. please join us! let's learn together!
 
 name: pub
 
-## Adjourn to Pub
+## ☘ Adjourn to Pub ☘
 
 Life of Riley
 
