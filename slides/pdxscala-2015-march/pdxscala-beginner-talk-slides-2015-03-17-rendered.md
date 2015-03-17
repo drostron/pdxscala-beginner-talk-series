@@ -176,7 +176,43 @@ res7: List[String] = List(by-name, by-name, by-name)
 
 ---
 
-## _example here_
+## example
+
+```scala
+@annotation.tailrec
+def nTimes[T](n: Int)(op: => T): Unit = if(n > 0) { op; nTimes(n-1)(op) }
+```
+
+```scala
+scala> var i = 0
+i: Int = 0
+
+scala> nTimes(3)(i += 1)
+
+scala> i
+res9: Int = 3
+```
+
+---
+
+## example
+
+```scala
+def ɟᴉ[T](pred: Boolean)(t: => T)(f: => T): T = pred match {
+  case true => t
+  case false => f
+}
+```
+
+```scala
+scala> ɟᴉ(true) { println("T"); 3 } { println("F"); 7 }
+T
+res10: Int = 3
+
+scala> ɟᴉ(false) { println("T"); 11 } { println("F"); 13 }
+F
+res11: Int = 13
+```
 
 ---
 
@@ -186,47 +222,33 @@ http://tpolecat.github.io/2014/06/26/call-by-name.html
 
 ---
 
-## string interpolation
-- why?
-- key features
-- they're interesting due to?
-- type safety, explain
-- explain how they work
-- quick macro explanation (don't dwell here), well, appears macros are not necessarily utilized?
-- build up another example?
-  - svg? visuals are fun
-  - currencies
-  - other units
-
----
-
-## string interpolation (std)
+## string interpolation : out of the box
 
 String Interpolator
 ```scala
 scala> s"π: $Pi, cos(π): ${cos(Pi)}"
-res8: String = π: 3.141592653589793, cos(π): -1.0
+res12: String = π: 3.141592653589793, cos(π): -1.0
 ```
 
 Format Interpolator, _java.util.Formatter_
 ```scala
 scala> f"Aryabhata's π $Pi%.4f"
-res9: String = Aryabhata's π 3.1416
+res13: String = Aryabhata's π 3.1416
 ```
 
 Raw Interpolator
 ```scala
 scala> raw"Look\tno\nEscaping"
-res10: String = Look\tno\nEscaping
+res14: String = Look\tno\nEscaping
 ```
 
 ---
 
-## string interpolation (custom)
+## string interpolation : custom
 
 ```scala
 implicit class PigLatinHelper(val sc: StringContext) extends AnyVal {
-  def pl(args: Any*): String = pigLatinise(
+  def pl(args: String*): String = pigLatinise(
     sc.parts.zipAll(args, "", "").map { case (i, j) => i + j }.mkString)
 }
 ```
@@ -236,7 +258,15 @@ scala> val α = "and"
 α: String = and
 
 scala> pl"this $α that"
-res11: String = hista andwa hatta
+res15: String = hista andwa hatta
+```
+
+--
+
+compiler rewrites to:
+```scala
+scala> new StringContext("this ", " that").pl(α)
+res16: String = hista andwa hatta
 ```
 
 ---
@@ -249,22 +279,16 @@ import spire.syntax.literals._
 
 ```scala
 scala> b"1"
-res12: Byte = 1
-
-scala> ub"1"
-res13: spire.math.UByte = 1
-
-scala> ui"1"
-res14: spire.math.UInt = 1
+res17: Byte = 1
 
 scala> ul"1"
-res15: spire.math.ULong = 1
+res18: spire.math.ULong = 1
 
 scala> r"1/7"
-res16: spire.math.Rational = 1/7
+res19: spire.math.Rational = 1/7
 
 scala> poly"x^2 - 3x + 7"
-res17: spire.math.Polynomial[spire.math.Rational] = (x^2 - 3x + 7)
+res20: spire.math.Polynomial[spire.math.Rational] = (x^2 - 3x + 7)
 ```
 
 ---
@@ -277,24 +301,26 @@ import spire.syntax.literals.radix._
 
 ```scala
 scala> x2"1011"
-res18: Int = 11
+res21: Int = 11
 
 scala> x16"def"
-res19: Int = 3567
+res22: Int = 3567
 ```
 ```scala
-import spire.implicits._
-
-import spire.syntax.literals.us._ // also si and eu
+import spire.implicits._, spire.syntax.literals.us._
 ```
 
 ```scala
-scala> i"1,024"
-res20: Int = 1024
+scala> "1,024"
+res23: String = 1,024
 
 scala> big"2" ** 200
-res21: BigInt = 1606938044258990275541962092341162602522202993782792835301376
+res24: BigInt = 1606938044258990275541962092341162602522202993782792835301376
 ```
+
+???
+
+also si and eu literals
 
 ---
 
@@ -308,9 +334,21 @@ import rapture.json._, jsonBackends.play._
 scala> val i = 3
 i: Int = 3
 
-scala> json"""{ "i" : $i }"""
-res22: rapture.json.Json = {"i":3}
+scala> val j = json"""{ "i" : $i }"""
+j: rapture.json.Json = {"i":3}
+
+scala> val json"""{ "i" : $v }""" = j
+v: rapture.data.DataType[rapture.json.Json,rapture.data.DataAst] = 3
+
+scala> v.as[Option[Int]]
+res25: Option[Int] = Some(3)
 ```
+
+???
+
+further info on unapply:
+- [SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US)
+- [patternmatching and string interpolation : scala-internals discussion](https://groups.google.com/d/topic/scala-internals/AmZl7VqV_rk)
 
 ---
 
@@ -320,11 +358,11 @@ http://docs.scala-lang.org/overviews/core/string-interpolation.html
 
 ---
 
-Questions and/or Thoughts?
+## Questions
 
---
+---
 
-Thank you.
+## Thank you
 
 ---
 
@@ -338,8 +376,10 @@ great low commitment opportunity to speak. please join us! let's learn together!
 
 ---
 
+name: pub
+
 ## Adjourn to Pub
 
 Life of Riley
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2795.2435141151022!2d-122.680932!3d45.525304999999996!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950a01f3c028fb%3A0x6aa7706ab3319d4e!2sLife+of+Riley+Inc!5e0!3m2!1sen!2sus!4v1426378182446" width="600" height="450" frameborder="0" style="border:0"></iframe>
+.pub-map[]
