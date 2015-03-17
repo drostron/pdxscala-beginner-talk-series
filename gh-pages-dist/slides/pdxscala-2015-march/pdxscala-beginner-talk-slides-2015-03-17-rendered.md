@@ -75,7 +75,8 @@ _setting the stage_
 ```scala
 trait Translation[T] { def translate(v: String): String }
 
-def translate[T : Translation](v: String) = implicitly[Translation[T]].translate(v)
+def translate[T : Translation](v: String) =
+  implicitly[Translation[T]].translate(v)
 
 object Translations {
   implicit object PigLatin extends Translation[String] {
