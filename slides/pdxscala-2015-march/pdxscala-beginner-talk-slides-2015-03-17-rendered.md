@@ -181,7 +181,7 @@ res7: List[String] = List(by-name, by-name, by-name)
 
 ```scala
 @annotation.tailrec
-def nTimes[T](n: Int)(op: => T): Unit = if(n > 0) { op; nTimes(n-1)(op) }
+def nTimes(n: Int)(op: => Unit): Unit = if(n > 0) { op; nTimes(n-1)(op) }
 ```
 
 ```scala
