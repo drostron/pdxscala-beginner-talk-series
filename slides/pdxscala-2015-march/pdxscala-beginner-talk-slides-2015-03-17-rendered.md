@@ -349,9 +349,7 @@ res25: Option[Int] = Some(3)
 
 further information:
 
-http://docs.scala-lang.org/overviews/core/string-interpolation.html
-
-further information on unapply:
+- http://docs.scala-lang.org/overviews/core/string-interpolation.html
 - [SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US)
 - [patternmatching and string interpolation : scala-internals discussion](https://groups.google.com/d/topic/scala-internals/AmZl7VqV_rk)
 
