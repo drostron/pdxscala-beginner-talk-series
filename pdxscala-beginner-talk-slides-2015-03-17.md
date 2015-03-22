@@ -150,7 +150,7 @@ j { println("☘"); "by-name" }
 
 ```tut:silent
 @annotation.tailrec
-def nTimes[T](n: Int)(op: => T): Unit = if(n > 0) { op; nTimes(n-1)(op) }
+def nTimes(n: Int)(op: => Unit): Unit = if(n > 0) { op; nTimes(n-1)(op) }
 ```
 
 ```tut
@@ -278,17 +278,13 @@ val json"""{ "i" : $v }""" = j
 v.as[Option[Int]]
 ```
 
-???
-
-further info on unapply:
-- [SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US)
-- [patternmatching and string interpolation : scala-internals discussion](https://groups.google.com/d/topic/scala-internals/AmZl7VqV_rk)
-
 ---
 
 further information:
 
-http://docs.scala-lang.org/overviews/core/string-interpolation.html
+- http://docs.scala-lang.org/overviews/core/string-interpolation.html
+- [SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US)
+- [patternmatching and string interpolation : scala-internals discussion](https://groups.google.com/d/topic/scala-internals/AmZl7VqV_rk)
 
 ---
 

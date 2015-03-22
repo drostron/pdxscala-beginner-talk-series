@@ -1,0 +1,43 @@
+[info] Compiling 1 Scala source to pdxscala-beginner-talk-series/string-interpolation-transformation/target/scala-2.11/classes...
+[info] pdxscala-beginner-talk-series/string-interpolation-transformation/StringInterpolationTransformation.scala:9: applied implicit conversion from StringContext to ?{def noop: ?} = implicit def Noop(sc: StringContext): StringInterpolationTransformation.Noop
+[info]   val i = noop"this $α that"
+[info]           ^
+[[syntax trees at end of                     typer]] // StringInterpolationTransformation.scala
+package <empty> {
+  object StringInterpolationTransformation extends scala.AnyRef {
+    def <init>(): StringInterpolationTransformation.type = {
+      StringInterpolationTransformation.super.<init>();
+      ()
+    };
+    final implicit class Noop extends scala.AnyVal {
+      <paramaccessor> private[this] val sc: StringContext = _;
+      <stable> <accessor> <paramaccessor> def sc: StringContext = Noop.this.sc;
+      def <init>(sc: StringContext): StringInterpolationTransformation.Noop = {
+        Noop.super.<init>();
+        ()
+      };
+      def noop(args: String*): String = Noop.this.sc.parts.zipAll[String, String, Seq[(String, String)]](args, "", "")(collection.this.Seq.canBuildFrom[(String, String)]).map[String, Seq[String]](((x0$1: (String, String)) => x0$1 match {
+  case (_1: String, _2: String)(String, String)((i @ _), (j @ _)) => i.+(j)
+}))(collection.this.Seq.canBuildFrom[String]).mkString;
+      override <synthetic> def hashCode(): Int = Noop.this.sc.hashCode();
+      override <synthetic> def equals(x$1: Any): Boolean = x$1 match {
+  case (_: StringInterpolationTransformation.Noop) => true
+  case _ => false
+}.&&({
+        <synthetic> val Noop$1: StringInterpolationTransformation.Noop = x$1.asInstanceOf[StringInterpolationTransformation.Noop];
+        Noop.this.sc.==(Noop$1.sc)
+      })
+    };
+    <synthetic> object Noop extends AnyRef {
+      def <init>(): StringInterpolationTransformation.Noop.type = {
+        Noop.super.<init>();
+        ()
+      }
+    };
+    implicit <synthetic> def Noop(sc: StringContext): StringInterpolationTransformation.Noop = new Noop(sc);
+    private[this] val α: String = "and";
+    <stable> <accessor> def α: String = StringInterpolationTransformation.this.α;
+    private[this] val i: String = StringInterpolationTransformation.this.Noop(scala.StringContext.apply("this ", " that")).noop(StringInterpolationTransformation.this.α);
+    <stable> <accessor> def i: String = StringInterpolationTransformation.this.i
+  }
+}
