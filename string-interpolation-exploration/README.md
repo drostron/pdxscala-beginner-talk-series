@@ -1,6 +1,6 @@
 ## string interpolation compiler transformation
 
-Looking at the compilation output of StringInterpolationTransformation in [compile.out](transformation/compile.out):
+Looking at the compilation output of [StringInterpolationTransformation.scala](transformation/StringInterpolationTransformation.scala) in [compile.out](transformation/compile.out):
 
 the compiler transforms
 ```scala
